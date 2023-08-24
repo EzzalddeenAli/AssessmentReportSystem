@@ -78,11 +78,11 @@ def upload_file():
             term_name,
         ]
 
-    class_averages_with_total = list(class_records[-2][3:9])
+    class_averages_with_total = list(class_records[-2][3:15])
 
-    mean = sum(list(class_records[-2][3:8])) / 5
+    mean = sum(list(class_records[-2][3:14])) / 11
 
-    class_averages_with_mean = list(list(class_records[-2][3:8]) + [mean])
+    class_averages_with_mean = list(list(class_records[-2][3:14]) + [mean])
 
     class_averages = [
         class_averages_with_total,

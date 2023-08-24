@@ -26,7 +26,7 @@ def generate_subject_comments(marks_list: list) -> list:
     marks_list = format_student_marks(marks_list)
 
     if marks_list[-1] > 100:
-        marks_list[-1] /= 5
+        marks_list[-1] /= 11
 
     comments = []
 

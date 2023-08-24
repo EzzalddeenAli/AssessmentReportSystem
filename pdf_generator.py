@@ -249,7 +249,7 @@ def generate_student_report(
     # Displaying the student details
     canvass.drawString(
         300,
-        y_offset + 45,
+        y_offset + 90,
         f"NAME:  {student[1]}".upper(),
         )
 
@@ -281,7 +281,7 @@ def generate_student_report(
     # Draw rectangle around student name
     canvass.rect(308, y_offset + 48, 248, -22)
 
-    # Add student's gener
+    # Add student's gender
     canvass.drawString(
         100,
         y_offset + 15,
@@ -299,19 +299,19 @@ def generate_student_report(
         f"{student[9]}  /  {number_number_column_heads[0]}",
         )
 
-    canvass.setFont("Helvetica", 13)
-    canvass.drawString(
-        243,
-        y_offset - 15,
-        f"{student[1].split(' ')[0].title()}'s Performance",
-        )
-    canvass.setFont("Helvetica", 12)
+    # canvass.setFont("Helvetica", 13)
+    # canvass.drawString(
+    #     243,
+    #     y_offset - 15,
+    #     f"{student[1].split(' ')[0].title()}'s Performance",
+    #     )
+    # canvass.setFont("Helvetica", 12)
 
     # Creating a table for subjects and marks
-    subjects = number_number_column_heads[1][3:9]
+    subjects = number_number_column_heads[1][3:15]
 
     comments = generate_subject_comments(
-        list(student[3:9])
+        list(student[3:15])
         )
 
     data = [[
@@ -334,7 +334,21 @@ def generate_student_report(
     # Define the column widths
     col_widths = [80, 80, 80, 210]
     # Define the row heights
-    row_heights = [30, 20, 20, 20, 20, 20, 20]
+    row_heights = [
+        25,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+        ]
 
     bold_last_row_index = len(data) - 1
 
@@ -404,7 +418,7 @@ def generate_student_report(
     # Drawing the table on the canvas
     table.wrapOn(canvass, 100, 200)
     # Adjust the offsets accordingly
-    table.drawOn(canvass, 80, y_offset - 170)
+    table.drawOn(canvass, 80, y_offset - 244)
 
     return y_offset - 200  # Adjust this value as needed
 
@@ -498,15 +512,15 @@ def create_student_plot_buffer(
         io.BytesIO: A buffer containing the plot.
     """
     student_name = student_marks[1].split(' ')[0].title()
-    student_marks = list(student_marks[3:9])
+    student_marks = list(student_marks[3:15])
     # class_averages = list(class_averages)
 
-    student_marks[-1] = int(student_marks[-1]) / 5
+    student_marks[-1] = int(student_marks[-1]) / 11
 
-    fig, axis = plt.subplots(figsize=(2.5, 1.3))
+    fig, axis = plt.subplots(figsize=(2.5, 1.1))
 
     # Add or remove subjects as per your data
-    subjects = column_heads[3:8] + ['TOT']
+    subjects = column_heads[3:14] + ['TOT']
 
     for index, mark in enumerate(student_marks):
         student_marks[index] = format_mark(mark)
@@ -550,8 +564,10 @@ def create_student_plot_buffer(
     axis.set_xticklabels(
         subjects,
         fontsize=4,
-        rotation=45,
+        # rotation=45,
         )  # Set font size for subjects here
+    # Adjust the pad to reduce the distance. You can modify the value as per your needs.
+    axis.tick_params(axis='x', which='major', pad=1)
 
     title = f"{student_name}'s Marks vs Class Averages"
     axis.set_title(
@@ -641,7 +657,7 @@ def add_overall_comments(
     #     )
 
     # draw rectangle
-    canvass.rect(80, 197, 450, -63)
+    canvass.rect(80, 189, 450, -63)
 
     # start position of the text
     text_object = canvass.beginText(
@@ -679,12 +695,12 @@ def add_overall_comments(
     canvass.drawText(text_object)
 
     # draw rectangle
-    canvass.rect(80, 124, 450, -63)
+    canvass.rect(80, 121, 450, -63)
 
         # start position of the text
     text_object = canvass.beginText(
         90,
-        y_position - 75,
+        y_position + 5,
         )
     text_object.setFont(
         "Helvetica",
@@ -692,7 +708,7 @@ def add_overall_comments(
         )
     text_object.setTextOrigin(
         90,
-        y_position - 75,
+        y_position - 68,
         )
 
     # Split the comment by words and add them line by line
@@ -813,7 +829,7 @@ def generate_pdf(
         y_position = generate_student_report(
             canvass,
             y_position - 70,
-            student[:10],
+            student[:15],
             class_averages[0],
             (
                 number_of_students,
@@ -824,9 +840,9 @@ def generate_pdf(
         # Step 3: Add overall comment to the student
         add_overall_comments(
             canvass,
-            y_position - 30,
-            column_heads[3:8],
-            student[:10],
+            y_position - 38,
+            column_heads[3:14],
+            student[:15],
             # The headteacher's comment
             class_records[-1][0],
             )
@@ -844,15 +860,15 @@ def generate_pdf(
         canvass.drawImage(
             ImageReader(
             create_student_plot_buffer(
-            student[:10],
+            student[:15],
             class_averages[1],
             column_heads,
             )
         ),
             (width * 0.1) + 10,
-            y_position,
+            y_position - 24,
             width=width * 0.7,
-            height=height * 0.27,
+            height=height * 0.235,
             )
 
     canvass.save()
