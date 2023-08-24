@@ -267,19 +267,19 @@ def generate_student_report(
         )
 
     # Draw rectangle around student id number
-    canvass.rect(317, y_offset + 75, 112, -22)
+    canvass.rect(308, y_offset + 75, 121, -22)
 
     # Draw rectangle around student gender
-    canvass.rect(440, y_offset + 75, 110, -22)
+    canvass.rect(434, y_offset + 75, 122, -22)
 
     # Draw a rectangle around student's position
-    canvass.rect(55, y_offset + 75, 251, -22)
+    canvass.rect(55, y_offset + 75, 248, -22)
 
     # Draw rectangle around student name
-    canvass.rect(55, y_offset + 48, 250, -22)
+    canvass.rect(55, y_offset + 48, 248, -22)
 
     # Draw rectangle around student name
-    canvass.rect(310, y_offset + 48, 250, -22)
+    canvass.rect(308, y_offset + 48, 248, -22)
 
     # Add student's gener
     canvass.drawString(
@@ -506,10 +506,15 @@ def create_student_plot_buffer(
     fig, axis = plt.subplots(figsize=(2.5, 1.3))
 
     # Add or remove subjects as per your data
-    subjects = column_heads[3:8] + ['Mean']
+    subjects = column_heads[3:8] + ['TOT']
 
     for index, mark in enumerate(student_marks):
         student_marks[index] = format_mark(mark)
+
+    # change all the subjects to three characters long
+    # these should be capitalized as well
+    for index, subject in enumerate(subjects):
+        subjects[index] = subject[:3].upper()
 
     axis.bar(
         subjects,
@@ -819,7 +824,7 @@ def generate_pdf(
         # Step 3: Add overall comment to the student
         add_overall_comments(
             canvass,
-            y_position,
+            y_position - 30,
             column_heads[3:8],
             student[:10],
             # The headteacher's comment
@@ -845,7 +850,7 @@ def generate_pdf(
             )
         ),
             (width * 0.1) + 10,
-            y_position + 17,
+            y_position,
             width=width * 0.7,
             height=height * 0.27,
             )
