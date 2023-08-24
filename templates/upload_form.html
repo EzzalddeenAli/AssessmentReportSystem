@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Spreadsheet - Exams Monitoring System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        .center-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        body {
+            max-width: 1200px;  /* Or whatever width you feel appropriate */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .warning {
+            width: 98.3%;
+            background-color: #ffcccb; /* Light red background */
+            border: 1px solid red; 
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .instructions {
+            width: 98.3%;
+            background-color: #e6f7ff; /* Light blue background */
+            border: 1px solid #007BFF;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #d3d3d3; /* Gray background */
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Common styles for both the upload and submit buttons */
+        .custom-button {
+            display: inline-block;
+            width: 260px;  /* Fixed width */
+            height: 50px;  /* Fixed height */
+            line-height: 50px;  /* Vertically aligns text in the middle */
+            background-color: #808080;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .custom-button:hover {
+            background-color: #007BFF;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center; /* Horizontally center the buttons */
+            align-items: center;     /* Vertically center the buttons */
+            gap: 10px;               /* Space between the buttons */
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* this is for loading*/
+        .loader {
+            border: 12px solid #f3f3f3; /* Light grey */
+            border-top: 12px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            display: none; /* Hidden by default */
+            margin: 0 auto;
+            animation: spinAndPulse 2s linear infinite;
+        }
+
+        @keyframes spinAndPulse {
+            0% { 
+                transform: rotate(0deg) scale(0.5); 
+            }
+            25% { 
+                transform: rotate(90deg) scale(1.05); 
+            }
+            50% { 
+                transform: rotate(180deg) scale(0.5); 
+            }
+            75% { 
+                transform: rotate(270deg) scale(1.05); 
+            }
+            100% { 
+                transform: rotate(360deg) scale(0.5); 
+            }
+        }
+
+        table tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ccc;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #4CAF50; /* Green color, can be changed */
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+
+        body:active::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 0, 150, 0.1);
+            z-index: -1;
+            animation: bgChange 1s forwards;
+        }
+
+        @keyframes bgChange {
+            from {
+                background: rgba(255, 0, 150, 0.1);
+            }
+            to {
+                background: transparent;
+            }
+        }
+
+        /* Ripple effect styles */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);  /* Semi-transparent white */
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: currentColor;
+            pointer-events: none;
+            z-index: 1000; /* or any higher value to ensure particles are on top */
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        table {
+            border-collapse: collapse; /* Ensures no spacing between cells */
+            width: 100%; 
+            font-family: Calibri, Arial, sans-serif; /* Default Excel font */
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc; /* Excel-like grid */
+            padding: 8px 12px;  
+            text-align: center; /* Centering content like Excel */
+            vertical-align: middle; /* Vertical centering */
+            border-collapse: separate; /* Needed to handle rounded corners on individual cells */
+            border-spacing: 0; /* Necessary to bring cells together after setting border-collapse to separate */
+            border-radius: 10px; /* Rounded corners for the table */
+            overflow: hidden; /* Ensures inner borders don't show at the rounded corners */
+        }
+
+        thead {
+            background-color: #d3e2e9; /* Light blue background, reminiscent of Excel's default */
+        }
+
+        thead th, tbody td {
+            border: 1px solid #d0d0d0;  /* Light gray border around cells */
+        }
+
+        thead th {
+            font-weight: bold;  /* Bold headers */
+        }
+
+        /* Top-left rounded corner */
+        thead tr:first-child th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        /* Top-right rounded corner */
+        thead tr:first-child th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        /* Bottom-left rounded corner */
+        tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        /* Bottom-right rounded corner */
+        tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="center-container">
+    <h2>Exams Reports System</h2>
+    <div class="warning">
+        WARNING: This tool is still under development. Please proceed with caution.
+    </div>
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Ensure that your spreadsheet is in the correct format, exactly similar to the table below.</li>
+            <li>The first row should contain headers like "Student ID", "Student Name", etc. just as displayed on the table below.</li>
+            <li>Data should be present in the subsequent rows, and the last row being other relevant information, e.g. opening dates (about 50 words).</li>
+            <li>Click on "Choose a Spreadsheet" to select your file.</li>
+            <li>Once selected, click "Upload and Generate PDF" to process the spreadsheet, might take longer for many students.</li>
+        </ol>
+    </div>
+
+    <!-- Sample Table as provided -->
+    <table class="table-rounded">
+        <thead>
+            <tr>
+                <th colspan="10">XYZ Primary School</th>
+            </tr>
+            <tr>
+                <th colspan="10">Grade 5</th>
+            </tr>
+            <tr>
+                <th colspan="10">1st Term 2023</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Student ID</td><td>Student Name</td><td>Gender</td><td>English</td><td>Kiswahili</td><td>Mathematics</td><td>Science</td><td>SST/RE</td><td>Total</td><td>Position</td>
+            </tr>
+            <tr>
+                <td>1</td><td>John Doe</td><td>Male</td><td>78</td><td>82</td><td>90</td><td>85</td><td>88</td><td>423</td><td>2</td>
+            </tr>
+            <tr>
+                <td>2</td><td>Jane Doe</td><td>Female</td><td>85</td><td>80</td><td>87</td><td>80</td><td>86</td><td>418</td><td>3</td>
+            </tr>
+            <tr>
+                <td>3</td><td>Peter Smith</td><td>Male</td><td>43</td><td>23</td><td>54</td><td>21</td><td>32</td><td>173</td><td>4</td>
+            </tr>
+            <tr>
+                <td>4</td><td>Susan Jones</td><td>Female</td><td>87</td><td>84</td><td>89</td><td>84</td><td>86</td><td>430</td><td>1</td>
+            </tr>
+            <tr>
+                <td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td>
+            </tr>
+            <tr>
+                <td>Averages</td><td><td></td></td><td>74.6</td><td>70</td><td>81.6</td><td>70.6</td><td>75.8</td><td>372.6</td><td></td>
+            </tr>
+        </tbody>
+        <thead>
+            <tr>
+                <td colspan="10">Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2023 and resumes on September 21st, 2023. Wishing you all joyful holidays!</td>
+            </tr>
+        </thead>
+    </table>
+
+
+    <div class="loader"></div>
+
+
+    <!-- Form layout -->
+
+    <form action="http://127.0.0.1:5000/upload" method="post" enctype="multipart/form-data">
+        <div class="btn-container">
+            <label class="custom-button" for="file">Choose a Spreadsheet</label>
+            <input id="file" type="file" name="file" accept=".xls,.xlsx,.csv" required>
+            <input class="custom-button" type="submit" value="Upload and Generate PDF">
+        </div>
+    </form>
+    </div>
+
+    <!-- Here's the updated script tag -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Prevent the form from submitting right away
+            e.preventDefault();
+
+            // Show the loader
+            document.querySelector('.loader').style.display = 'block';
+
+            // Hide the button container
+            document.querySelector('.btn-container').style.display = 'none';
+
+            // Wait a short time (e.g., 100ms) then submit the form
+            setTimeout(function() {
+                e.target.submit();
+            }, 100);
+        });
+    </script>
+
+    <script>
+        let buttons = document.querySelectorAll(".custom-button");
+        buttons.forEach(button => {
+            button.addEventListener("click", function(event) {
+                // Check if the clicked button is not an input (to avoid submitting the form)
+                if(event.target.tagName !== 'INPUT') {
+                    // Get button properties
+                    let rect = event.target.getBoundingClientRect();
+                    let colors = ["red", "blue", "green", "yellow", "pink", "cyan"];  // You can add more colors if desired
+                    
+                    // Number of particles to produce
+                    for (let i = 0; i < 30; i++) {
+                        createParticle(event.clientX, event.clientY, rect, colors[Math.floor(Math.random() * colors.length)]);
+                    }
+                }
+            });
+        });
+
+        function createParticle (x, y, rect, color) {
+            // Create particle element
+            let particle = document.createElement("div");
+            document.body.appendChild(particle);
+
+            // Assign color and set position
+            particle.style.backgroundColor = color;
+            particle.style.color = color;  // For use with the 'currentColor' value in CSS
+            particle.style.left = (x - rect.width / 2) + 'px';
+            particle.style.top = (y - rect.height / 2) + 'px';
+
+            // Calculate random direction for the particle to travel
+            let angle = Math.random() * 2 * Math.PI;
+            let distance = Math.random() * 100;
+
+            // Using `requestAnimationFrame` to update the particle's position and simulate animation
+            let startTime = performance.now();
+            requestAnimationFrame(function updateParticle(time) {
+                let elapsed = time - startTime;
+
+                // Translate particle to its new position
+                particle.style.transform = `translate(${Math.cos(angle) * distance * (elapsed / 1000)}px, ${Math.sin(angle) * distance * (elapsed / 1000)}px)`;
+
+                // Remove particle after 1 second
+                if (elapsed < 1000) {
+                    requestAnimationFrame(updateParticle);
+                } else {
+                    particle.remove();
+                }
+            });
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function(event) {
+                // ... existing particles code ...
+
+                // Ripple effect
+                addRippleEffect(event);
+            });
+        });
+
+        function addRippleEffect(e) {
+            let target = e.target;  // the button
+
+            // Create ripple element
+            let ripple = document.createElement("span");
+            ripple.classList.add("ripple");
+
+            // Set size and position for the ripple
+            let rect = target.getBoundingClientRect();
+            ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + "px";
+            ripple.style.left = e.clientX - rect.left - ripple.offsetWidth / 5 + "px";
+            ripple.style.top = e.clientY - rect.top - ripple.offsetHeight / 10 + "px";
+
+            // Add ripple to button and remove after animation is done
+            target.appendChild(ripple);
+            ripple.addEventListener("animationend", () => {
+                ripple.remove();
+            });
+        }
+
+    </script>
+</body>
+</html>
+
