@@ -1,7 +1,11 @@
 """This module contains functions for reading spreadsheets."""
 
+import io
+
 import openpyxl
 from openpyxl.utils import get_column_letter
+
+from PIL import Image
 
 
 def get_hidden_rows(sheet):
@@ -40,7 +44,7 @@ def read_spreadsheet(file_path):
             school_name (str): The name of the school.
             class_detail (str): The class name.
             term_detail (str): The term name and the year.
-            class_records (list): A list of student records.
+            class_records (list): A list of student records and any images in the file.
             number_of_students (int): The number of students in the class.
     """
     # Load the workbook and get the active sheet
@@ -61,6 +65,16 @@ def read_spreadsheet(file_path):
     term_name = sheet.cell(
         row=3,
         column=1).value
+
+    # Check for any logo in the spreadsheet file
+    images = []
+
+    # Check for any images in the worksheet
+    for img_obj in sheet._images:
+        # Check if _data is callable and if so, call it to get image data
+        image_data = img_obj._data() if callable(img_obj._data) else img_obj._data
+        image = Image.open(io.BytesIO(image_data))
+        images.append(image)
 
     # Extract student records, avoiding the first 3 rows and the last row
     class_records = []
@@ -93,12 +107,15 @@ def read_spreadsheet(file_path):
 
     # get the number of students in class
     # to be displayed on the report form
-    number_of_students = len(class_records) - 2 if len(class_records) >= 2 else 0
+    number_of_students = len(class_records) - 3 if len(class_records) >= 3 else 0
 
     return (
         school_name,
         class_name,
         term_name,
-        class_records,
+        [
+            class_records,
+            images,
+            ],
         number_of_students,
         )
