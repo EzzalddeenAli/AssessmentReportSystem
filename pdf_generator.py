@@ -4,6 +4,8 @@ import io
 
 import re
 
+import tempfile
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
@@ -18,6 +20,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
+
 matplotlib.use('Agg')  # Set the backend to Agg
 
 
@@ -26,6 +29,7 @@ def start_new_page(
         width: int,
         height: int,
         title_details: list,
+        school_logo: list,
         ) -> int:
     """This function starts a new page in the PDF file.
 
@@ -118,6 +122,25 @@ def start_new_page(
         width - 50,
         y_position + 10,
         )
+
+    # Check if there are images in school_logo
+    if school_logo:
+        # Use the first image from the list
+        logo_img = school_logo[0]
+
+        # Convert PIL Image to a format usable by ReportLab (PNG)
+        with tempfile.NamedTemporaryFile(delete=True, suffix='.png') as temp:
+            logo_img.save(temp.name, format="PNG")
+
+            # Draw the logo on the canvas
+            canvass.drawImage(
+                temp.name,
+                50,
+                height - 80,
+                width=100,
+                height=70,
+                mask='auto',
+                )
 
     return y_position
 
@@ -224,6 +247,48 @@ def format_class_average(class_average: str) -> str:
     # It contains non-float or non-int at this point
     return '0.00'
 
+def abbreviate_name(name: str, threshold: int) -> str:
+    """
+    Abbreviates the name if it surpasses the threshold length.
+
+    Args:
+        name (str): Full name to check and abbreviate if needed.
+        threshold (int): The maximum length threshold for the name.
+
+    Returns:
+        str: The abbreviated name.
+    """
+
+    # If the name is shorter than or equal to the threshold, return it as is
+    if len(name) <= threshold:
+        return name
+
+    # Split the name into words
+    name_parts = name.split()
+
+    # If the name has more than one part, abbreviate the last name
+    if len(name_parts) > 1:
+        name_parts[-1] = name_parts[-1][0] + '.'
+        abbreviated_name = ' '.join(name_parts)
+
+        # If the abbreviated name is still longer than the threshold,
+        # abbreviate the first and middle names
+        if len(abbreviated_name) > threshold:
+            for i in range(len(name_parts) - 1):  # Loop through all parts except the last name
+                name_parts[i] = name_parts[i][0] + '.'
+            abbreviated_name = ' '.join(name_parts)
+
+            # If the name is still too long after all abbreviations,
+            # remove the third part (last name) completely
+            if len(abbreviated_name) > threshold and len(name_parts) >= 3:
+                abbreviated_name = ' '.join(name_parts[:-1])
+
+        return abbreviated_name
+
+    # If the name is a single word, just return it truncated to the threshold
+    return name[:threshold]
+
+
 def generate_student_report(
         canvass: canvas.Canvas,
         y_offset: int,
@@ -238,8 +303,10 @@ def generate_student_report(
         y_offset (int): The y offset for the student details.
         student (list): A tuple containing the student details.
         class_averages (list): A tuple containing the class performance.
-        number_number_column_heads (tuple): A tuple containing the number
-            of students and column heads.
+        number_number_column_heads (tuple): A tuple containing:
+            number of students: the number of students in this class.
+            column heads: the column heads in this sheet.
+            class teacher's name: the class teacher of this class.
 
     Returns:
         int: The y offset for the next line.
@@ -248,9 +315,9 @@ def generate_student_report(
 
     # Displaying the student details
     canvass.drawString(
-        300,
-        y_offset + 90,
-        f"NAME:  {student[1]}".upper(),
+        60,
+        y_offset + 60,
+        f"STUDENT NAME:  {abbreviate_name(student[1], 18)}".upper(),
         )
 
     student_id = student[0]
@@ -261,8 +328,8 @@ def generate_student_report(
         student_id = int(student_id)
 
     canvass.drawString(
-        100,
-        y_offset + 45,
+        438,
+        y_offset + 60,
         f"STUDENT ID.:  {student_id}",
         )
 
@@ -283,8 +350,8 @@ def generate_student_report(
 
     # Add student's gender
     canvass.drawString(
-        100,
-        y_offset + 15,
+        312,
+        y_offset + 60,
         f"GENDER:  {student[2]}".upper(),
         )
 
@@ -293,10 +360,17 @@ def generate_student_report(
         student[9] = int(student[9])
 
     canvass.drawString(
-        300,
-        y_offset + 15,
+        60,
+        y_offset + 33,
         f"STUDENT POSITION:  "
-        f"{student[9]}  /  {number_number_column_heads[0]}",
+        f" {student[15]}   OUT OF   {number_number_column_heads[0]}",
+        )
+
+    canvass.drawString(
+        312,
+        y_offset + 33,
+        f"CLASS TEACHER:  "
+        f"{abbreviate_name(number_number_column_heads[2], 16)}",
         )
 
     # canvass.setFont("Helvetica", 13)
@@ -791,7 +865,7 @@ def generate_pdf(
         term_name
         ) = title_records
 
-    column_heads = list(class_records[0])
+    column_heads = list(class_records[0][0])
 
     canvass = canvas.Canvas(
         output_path,
@@ -800,7 +874,7 @@ def generate_pdf(
 
     width, height = letter
 
-    for student in class_records[1:-2]:
+    for student in class_records[0][1:-3]:
         # Start a new page for the student
         y_position = start_new_page(
             canvass,
@@ -811,6 +885,7 @@ def generate_pdf(
                 class_name,
                 term_name,
                 ],
+            class_records[1],
             )
 
         # Change any None values to 0
@@ -829,11 +904,12 @@ def generate_pdf(
         y_position = generate_student_report(
             canvass,
             y_position - 70,
-            student[:15],
+            student[:16],
             class_averages[0],
             (
                 number_of_students,
                 column_heads,
+                class_records[0][-1][0],
             ),
             ) - 210
 
@@ -844,7 +920,7 @@ def generate_pdf(
             column_heads[3:14],
             student[:15],
             # The headteacher's comment
-            class_records[-1][0],
+            class_records[0][-2][0],
             )
 
         # img = ImageReader(
