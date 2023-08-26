@@ -107,7 +107,7 @@ def read_spreadsheet(file_path):
 
     # get the number of students in class
     # to be displayed on the report form
-    number_of_students = len(class_records) - 3 if len(class_records) >= 3 else 0
+    number_of_students = len(class_records) - 4 if len(class_records) >= 4 else 0
 
     return (
         school_name,

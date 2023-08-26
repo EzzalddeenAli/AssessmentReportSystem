@@ -19,6 +19,9 @@ from comments import generate_overall_comment
 import matplotlib
 import matplotlib.pyplot as plt
 
+from PIL import Image
+
+secondary_logo_img = Image.open('harambee.png')
 
 
 matplotlib.use('Agg')  # Set the backend to Agg
@@ -141,6 +144,14 @@ def start_new_page(
                 height=70,
                 mask='auto',
                 )
+
+    canvass.drawInlineImage(
+        secondary_logo_img,
+        width - 143,
+        height - 83,
+        width=98,
+        height=73,
+    )
 
     return y_position
 
@@ -317,7 +328,7 @@ def generate_student_report(
     canvass.drawString(
         60,
         y_offset + 60,
-        f"STUDENT NAME:  {abbreviate_name(student[1], 18)}".upper(),
+        f"STUDENT NAME:  {abbreviate_name(student[1], 17)}".upper(),
         )
 
     student_id = student[0]
@@ -530,45 +541,6 @@ def format_mark(mark) -> int:
         return int(mark)
 
     return 0
-
-def add_class_performance_page(canvass, width, height, class_performance):
-    """This function adds a page to the PDF file with the class performance.
-
-    Args:
-        canvass (canvas.Canvas): The canvas object for the PDF file.
-        width (int): The width of the PDF file.
-        height (int): The height of the PDF file.
-        class_performance (tuple): A tuple containing the class performance.
-
-    Returns:
-        None
-    """
-    start_new_page(
-        canvass,
-        width,
-        height,
-        []
-        )
-
-    canvass.setFont("Helvetica", 18)
-
-    y_offset = 150
-    details = [
-        f"English Average: {class_performance[3]}",
-        f"Kiswahili Average: {class_performance[4]}",
-        f"Mathematics Average: {class_performance[5]}",
-        f"Science Average: {class_performance[6]}",
-        f"SST/RE Average: {class_performance[7]}",
-        f"Class Mean Score: {class_performance[8]}"
-    ]
-
-    for detail in details:
-        canvass.drawString(
-            100,
-            height - y_offset,
-            detail
-            )
-        y_offset += 30
 
 def create_student_plot_buffer(
         student_marks,
