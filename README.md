@@ -27,7 +27,7 @@ Exams Monitoring System is a comprehensive tool designed to help educators read 
 
 ### Prerequisites
 
-- List any software, libraries, or tools that need to be installed (e.g., Python, Java, Node.js).
+- Software, libraries, or tools that need to be installed can be found on the requirements.txt file.
 
 ### Installation
 
