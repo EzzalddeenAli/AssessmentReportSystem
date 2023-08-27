@@ -368,8 +368,8 @@ def generate_student_report(
         )
 
     student = list(student)
-    if isinstance(student[9], float):
-        student[9] = int(student[9])
+    if isinstance(student[15], float):
+        student[15] = int(student[15])
 
     canvass.drawString(
         60,
@@ -687,7 +687,7 @@ def add_overall_comments(
         None
     """
     student_name = ' '.join(student_records[1].split(' ')[:2]).title()
-    student_total_marks = student_records[8]
+    student_total_marks = student_records[14]
 
     comment = generate_overall_comment(
         get_subject_marks(subjects, student_records),
@@ -726,7 +726,8 @@ def add_overall_comments(
 
     line = []
     for word in words:
-        # You might need to adjust this length check for your specific needs
+        # You might need to adjust this length
+        # check for your specific needs
         if canvass.stringWidth(
             ' '.join(line + [word]),
             "Helvetica",
@@ -764,7 +765,8 @@ def add_overall_comments(
 
     line = []
     for word in words:
-        # You might need to adjust this length check for your specific needs
+        # You might need to adjust this length
+        # check for your specific needs
         if canvass.stringWidth(
             ' '.join(line + [word]),
             "Helvetica",
@@ -873,7 +875,8 @@ def generate_pdf(
         format_student_marks(student)
 
         # Step 1: Generate student details first
-        # y_offset = y_position - 70  # Adjust this as needed
+        # y_offset = y_position - 70
+        # # Adjust this as needed
         y_position = generate_student_report(
             canvass,
             y_position - 70,
