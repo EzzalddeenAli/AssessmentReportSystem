@@ -138,17 +138,18 @@ def start_new_page(
             # Draw the logo on the canvas
             canvass.drawImage(
                 temp.name,
-                50,
+                45,
                 height - 80,
-                width=100,
-                height=70,
+                width=75,
+                height=75,
                 mask='auto',
                 )
 
+    # This is the position of the harambee logo
     canvass.drawInlineImage(
         secondary_logo_img,
         width - 143,
-        height - 83,
+        height - 79,
         width=98,
         height=73,
     )
