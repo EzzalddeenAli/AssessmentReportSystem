@@ -29,9 +29,18 @@ Exams Monitoring System is a comprehensive tool designed to help educators read 
 
 - Software, libraries, or tools that need to be installed can be found on the requirements.txt file.
 
-### Installation
+### Overview
+The landing page for tool is shown below, the user would have their file in the same format shown below (widely used in Kenyan primary schools). The button 'Choose a Spreadsheet' prompts the user to choose a file from their computer.
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/jkeikei/ExamsMonitoringSystem.git
+[student_assessment_sheet.xlsx](https://github.com/keikei-jaffar/AssessmentmentReportSystem/files/12448732/student_assessment_sheet.xlsx)
+
+<img width="1496" alt="Screenshot 2023-08-27 at 15 57 48" src="https://github.com/keikei-jaffar/AssessmentmentReportSystem/assets/94993837/06d9c929-8268-4564-aa51-a520c0bc112e">
+
+
+The user then uploads a file to generate the reports. The wait time may vary depending on the size of the file (the number of student records).
+
+[student_assessment_reports.pdf](https://github.com/keikei-jaffar/AssessmentmentReportSystem/files/12448735/student_assessment_reports.pdf)
+
+
+<img width="543" alt="Screenshot 2023-08-27 at 15 58 34" src="https://github.com/keikei-jaffar/AssessmentmentReportSystem/assets/94993837/66423ca4-2ca6-4941-be9b-6533d3d7950c">
 
