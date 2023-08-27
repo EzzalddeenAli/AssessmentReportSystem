@@ -114,91 +114,124 @@ def generate_overall_comment(
 
     comment = ""
 
-    if student_total_marks > 500:
+    if student_total_marks > 1100 or student_total_marks < 0:
         comment = (f"Total marks for {student_name} is {student_total_marks}. "
                 f"Please check the marks entered.")
 
-    if student_total_marks >= 350:
-        comment = (f"Outstanding job, {student_name}! Your average score of "
-                f"{student_total_marks:.0f} out of 500 is truly remarkable. "
-                f"You particularly excelled in {first_highest_subject}, "
-                f"put more focus on areas like "
-                f"{first_lowest_subject} to achieve even more. Keep reaching for"
-                f" the stars and celebrate your achievements. You're soaring higher than an eagle!"
-                )
+    if student_total_marks >= 1000:
+        comment = (f"Outstanding job, {student_name}! Your stellar score of "
+                   f"{student_total_marks:.0f} out of 1100 is truly remarkable. "
+                   f"You particularly excelled in {first_highest_subject}. "
+                   f"Keep polishing areas like {first_lowest_subject} and {second_lowest_subject}. "
+                   f"to rise to the top. You're soaring higher than an eagle!")
 
-    elif student_total_marks >= 325:
-        comment = (f"Impressive work, {student_name}! With an average score of "
-                f"{student_total_marks:.0f} out of 500, you're making great strides. You performed "
-                f"notably in {first_highest_subject}. Keep focusing on areas like "
-                f"{first_lowest_subject} and {second_lowest_subject} to achieve even more. "
-                f"You're as dedicated as a beaver building a dam!"
-                )
+    elif student_total_marks >= 900:
+        comment = (f"Exceptional performance, {student_name}! Your score of "
+                   f"{student_total_marks:.0f} showcases your dedication. "
+                   f"Your prowess in {first_highest_subject} is commendable, but don't forget to "
+                   f"hone areas like {first_lowest_subject}. "
+                   f"You're as determined as a cheetah on the hunt!")
 
-    elif student_total_marks >= 300:
-        comment = (f"Well done, {student_name}! You scored an average of {student_total_marks:.0f}"
-                f" out of 500. Your strong point was {first_highest_subject} followed by "
-                f"{second_highest_subject}. With some more attention"
-                f" to {first_lowest_subject} and {second_lowest_subject}, you can achieve even "
-                f"greater heights. You're as agile as a cheetah on the hunt!"
-                )
+    elif student_total_marks >= 800:
+        comment = (f"Fabulous work, {student_name}! With a score of "
+                   f"{student_total_marks:.0f}, you're making waves. "
+                   f"You've done notably well in {first_highest_subject}. Continue to refine "
+                   f"skills in areas like {first_lowest_subject} and {second_lowest_subject}. "
+                   f"You're as dedicated as a beaver building a dam!")
 
-    elif student_total_marks >= 275:
-        comment = (f"Good effort, {student_name}! Your average score of {student_total_marks:.0f} "
-                f"out of 500 shows potential. While {first_highest_subject} and "
-                f"{second_highest_subject} was a highlight, focusing on"
-                f" {first_lowest_subject} and {second_lowest_subject} will bring even better "
-                f"results. You're as determined as a hummingbird searching for nectar!"
-                )
+    elif student_total_marks >= 700:
+        comment = (f"Great effort, {student_name}! Your score of "
+                   f"{student_total_marks:.0f} is commendable. While you shined in"
+                   f" {first_highest_subject} and {second_highest_subject}, there's more room for "
+                   f"improvement in {first_lowest_subject} and {second_lowest_subject}. "
+                   f"You're as agile as a monkey swinging through trees!")
 
-    elif student_total_marks >= 250:
-        comment = (f"Fair performance, {student_name}. With an average score of "
-                f"{student_total_marks:.0f} out of 500, your skills in {first_highest_subject} "
-                f"and {second_highest_subject} stood out. Building on areas like "
-                f"{second_lowest_subject} and {second_lowest_subject} will elevate your results. "
-                f"You're as persistent as a tortoise on a mission!"
-                )
+    elif student_total_marks >= 650:
+        comment = (f"Good job, {student_name}. A total score of "
+                   f"{student_total_marks:.0f} showcases your potential. Your skills in "
+                   f"areas like {first_highest_subject} and {second_highest_subject} are "
+                   f"evident. Yet, focus on {first_lowest_subject} and {second_lowest_subject} "
+                   f"for holistic growth. You're as brave as a lion facing a storm!")
 
-    elif student_total_marks >= 225:
-        comment = (f"Continue your journey, {student_name}. Your average score of "
-                f"{student_total_marks:.0f} suggests potential for improvement. Your best was "
-                f"{first_highest_subject}. Dedicating time to subjects like {first_lowest_subject} "
-                f"and {second_lowest_subject} will make a difference. "
-                f"You're as tenacious as a kangaroo in the outback!"
-                )
+    elif student_total_marks >= 600:
+        comment = (f"Stay determined, {student_name}. Your score of "
+                   f"{student_total_marks:.0f} is a testament to your hard work. "
+                   f"{first_highest_subject} and {second_highest_subject} was a highlight, but "
+                   f"don't neglect areas like {first_lowest_subject} and {second_lowest_subject}. "
+                   f"You're as persistent as a tortoise on a mission!")
 
-    elif student_total_marks >= 200:
-        comment = (f"Keep pushing forward, {student_name}. An average score of "
-                f"{student_total_marks:.0f} highlights {first_highest_subject} as a strength. "
-                f"Seeking support, from your colleagues and teachers, "
-                f"in areas like {first_lowest_subject} will lead to progress. "
-                f"You're as adaptable as an octopus exploring the ocean floor!"
-                )
+    elif student_total_marks >= 550:
+        comment = (f"Continue pushing, {student_name}. Your score of "
+                   f"{student_total_marks:.0f} shows promise to your performance. "
+                   f"While {first_highest_subject} and {second_highest_subject} was your strength, "
+                   f"put some elbow grease into {first_lowest_subject} and "
+                   f"{second_lowest_subject}. You're as tenacious as a kangaroo in the outback!")
 
-    elif student_total_marks >= 175:
-        comment = (f"There's room for growth, {student_name}. With an average score of "
-                f"{student_total_marks:.0f}, focusing on all areas, especially "
-                f"{first_lowest_subject}, will be beneficial. Your efforts in "
-                f"{first_highest_subject} are commendable. Stay persistent and keep believing "
-                f"in yourself! You're as tenacious as a mountain goat on a steep cliff!"
-                )
+    elif student_total_marks >= 500:
+        comment = (f"Every step is progress, {student_name}. With "
+                   f"{student_total_marks:.0f}, you have shown that you have potential. "
+                   f"Your efforts in {first_highest_subject} are noteworthy. But, there's"
+                   f" room for growth in {first_lowest_subject} and {second_lowest_subject}. "
+                   f"You're as adaptable as an octopus exploring the ocean floor!")
 
-    elif student_total_marks:
-        comment = (f"Keep persevering, {student_name}. Your average score of "
-                f"{student_total_marks:.0f} shows there's opportunity for growth. While "
-                f"{first_highest_subject} showed promise, areas like {first_lowest_subject} "
-                f"need more focus. Remember: every step forward counts."
-                f" You're as spirited as a lion chasing its prey!"
-                )
+    def generate_overall_comments_less_than_500(student_total_marks: int):
+        """This function generates a comment based on the student's performance.
 
-    elif student_total_marks < 0:
-        comment = (f"Total marks for {student_name} is less than 0. "
-                f"Please check the marks entered."
-                )
+        Args:
+            student_total_marks (int): The student's total marks.
 
-    else:
-        comment = (f"Total marks for {student_name} is {student_total_marks}. "
-                f"Please check the marks entered."
-                )
+        Returns:
+            str: A comment based on the student's performance.
+        """
+        comment = ""
+        if student_total_marks >= 450:
+            comment = (f"Stay engaged, {student_name}. With a score of "
+                       f"{student_total_marks:.0f}, you can go extra mile and achieve more. "
+                       f"Your strengths lie in {first_highest_subject}, but areas like "
+                       f"{first_lowest_subject} and {second_lowest_subject} need your attention. "
+                       f"You're as determined as a hummingbird searching for nectar!")
 
-    return comment
+        elif student_total_marks >= 400:
+            comment = (f"Keep the momentum, {student_name}. A score of "
+                       f"{student_total_marks:.0f} hints at your capabilities. You did well in"
+                       f" {first_highest_subject} and {second_highest_subject}, but it's essential"
+                       f" to strengthen your skills in {first_lowest_subject} and "
+                       f"{second_lowest_subject} to rise."
+                       f" You're as spirited as a hawk soaring the skies!")
+
+        elif student_total_marks >= 300:
+            comment = (f"Your journey is important, {student_name}. With a score of "
+                       f"{student_total_marks:.0f}, the sky's the limit. "
+                       f"While {first_highest_subject} showed some bright moments, more effort in "
+                       f"{first_lowest_subject} will help you rise to your potential. "
+                       f"You're as curious as a cat exploring its surroundings!")
+
+        elif student_total_marks >= 200:
+            comment = (f"Every effort counts, {student_name}. Your score of "
+                       f"{student_total_marks:.0f} is a stepping stone. "
+                       f"Your potential in {first_highest_subject} is clear. However, work on areas"
+                       f" like {first_lowest_subject} to enhance your prowess. "
+                       f"You're as resilient as a cactus in the desert!")
+
+        elif student_total_marks >= 100:
+            comment = (f"Beginnings are full of lessons, {student_name}. A score of "
+                    f"{student_total_marks:.0f} means there's much to learn. "
+                    f"You have some skills in {first_highest_subject}, but look into nurturing "
+                    f"{first_lowest_subject} and {second_lowest_subject}. "
+                    f"You're as lively as a fish in the water!")
+
+        else:
+            comment = (f"Every new start is an opportunity, {student_name}. With a score of "
+                    f"{student_total_marks:.0f}, growth awaits. "
+                    f"Your interest in {first_highest_subject} is evident. Yet, delve deeper into "
+                    f"{first_lowest_subject} and {second_lowest_subject} to make strides. "
+                    f"You're as sturdy as an oak tree in its prime!")
+
+        return comment
+
+    comments_less_500 = generate_overall_comments_less_than_500(student_total_marks)
+
+    if comment:
+        return comment
+
+    return comments_less_500
