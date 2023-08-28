@@ -104,7 +104,11 @@ def start_new_page(
     y_position -= 15
 
     # Setting the color to gray
-    canvass.setStrokeColorRGB(0.45, 0.45, 0.45)  # mid-gray
+    canvass.setStrokeColorRGB(
+        0.45,
+        0.45,
+        0.45,
+        )  # mid-gray
 
     # Drawing the thicker line.
     canvass.setLineWidth(3)
@@ -132,8 +136,14 @@ def start_new_page(
         logo_img = school_logo[0]
 
         # Convert PIL Image to a format usable by ReportLab (PNG)
-        with tempfile.NamedTemporaryFile(delete=True, suffix='.png') as temp:
-            logo_img.save(temp.name, format="PNG")
+        with tempfile.NamedTemporaryFile(
+            delete=True,
+            suffix='.png',
+            ) as temp:
+            logo_img.save(
+                temp.name,
+                format="PNG",
+                )
 
             # Draw the logo on the canvas
             canvass.drawImage(
@@ -233,8 +243,16 @@ def draw_7x4_table(canvass, _x, _y):
     )
     )
 
-    _, _h = table.wrapOn(canvass, 0, 0)
-    table.drawOn(canvas, _x, _y - _h)
+    _, _h = table.wrapOn(
+        canvass,
+        0,
+        0,
+        )
+    table.drawOn(
+        canvas,
+        _x,
+        _y - _h,
+        )
 
 def format_class_average(class_average: str) -> str:
     """This function formats the class averages.
@@ -346,19 +364,44 @@ def generate_student_report(
         )
 
     # Draw rectangle around student id number
-    canvass.rect(308, y_offset + 75, 121, -22)
+    canvass.rect(
+        308,
+        y_offset + 75,
+        121,
+        -22,
+        )
 
     # Draw rectangle around student gender
-    canvass.rect(434, y_offset + 75, 122, -22)
+    canvass.rect(
+        434,
+        y_offset + 75,
+        122,
+        -22,
+        )
 
     # Draw a rectangle around student's position
-    canvass.rect(55, y_offset + 75, 248, -22)
+    canvass.rect(
+        55,
+        y_offset + 75,
+        248,
+        -22,
+        )
 
     # Draw rectangle around student name
-    canvass.rect(55, y_offset + 48, 248, -22)
+    canvass.rect(
+        55,
+        y_offset + 48,
+        248,
+        -22,
+        )
 
     # Draw rectangle around student name
-    canvass.rect(308, y_offset + 48, 248, -22)
+    canvass.rect(
+        308,
+        y_offset + 48,
+        248,
+        -22,
+        )
 
     # Add student's gender
     canvass.drawString(
@@ -502,9 +545,18 @@ def generate_student_report(
     ]))
 
     # Drawing the table on the canvas
-    table.wrapOn(canvass, 100, 200)
+    table.wrapOn(
+        canvass,
+        100,
+        200,
+        )
+
     # Adjust the offsets accordingly
-    table.drawOn(canvass, 80, y_offset - 244)
+    table.drawOn(
+        canvass,
+        80,
+        y_offset - 244,
+        )
 
     return y_offset - 200  # Adjust this value as needed
 
@@ -614,7 +666,11 @@ def create_student_plot_buffer(
         # rotation=45,
         )  # Set font size for subjects here
     # Adjust the pad to reduce the distance. You can modify the value as per your needs.
-    axis.tick_params(axis='x', which='major', pad=1)
+    axis.tick_params(
+        axis='x',
+        which='major',
+        pad=1,
+        )
 
     title = f"{student_name}'s Marks vs Class Averages"
     axis.set_title(
@@ -637,7 +693,12 @@ def create_student_plot_buffer(
         )
 
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', dpi=600)
+    plt.savefig(
+        buf,
+        format='png',
+        dpi=600,
+        )
+
     plt.close(fig)
 
     buf.seek(0)
@@ -704,7 +765,12 @@ def add_overall_comments(
     #     )
 
     # draw rectangle
-    canvass.rect(80, 189, 450, -63)
+    canvass.rect(
+        80,
+        189,
+        450,
+        -63,
+        )
 
     # start position of the text
     text_object = canvass.beginText(
@@ -725,6 +791,7 @@ def add_overall_comments(
     words = [overall_comment] + comment.split(' ')
 
     line = []
+
     for word in words:
         # You might need to adjust this length
         # check for your specific needs
@@ -743,7 +810,12 @@ def add_overall_comments(
     canvass.drawText(text_object)
 
     # draw rectangle
-    canvass.rect(80, 121, 450, -63)
+    canvass.rect(
+        80,
+        121,
+        450,
+        -63,
+        )
 
         # start position of the text
     text_object = canvass.beginText(
@@ -764,6 +836,7 @@ def add_overall_comments(
     words = [overall_comment] + head_teacher.split(' ')
 
     line = []
+
     for word in words:
         # You might need to adjust this length
         # check for your specific needs
