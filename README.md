@@ -1,8 +1,8 @@
-# Exams Monitoring System
+# Assessment Report Tool
 
 Exams Monitoring System is a comprehensive tool designed to help educators read student exam records from spreadsheets and generate detailed PDF reports. The system provides both specific and general feedback on student performance, as well as insights based on the overall performance of the class.
 
-## Objectives for the Exams Monitoring System Tool:
+## Objectives for the Assessment Report Tool:
 
 - Drastically reduce report generation time from weeks to seconds using automation.
 - Eliminate manual entry errors, ensuring accurate report forms.
